@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace TranslationCrawler
             return _baseSourcePath;
         }
 
-        public IEnumerable<string> GetAllResourceFiles()
+        public IEnumerable<string> GetAllControlsFiles()
         {
-            
+
             foreach (var filePath in Directory.GetFiles(GetBaseSource(), "*.*", SearchOption.AllDirectories)
                                               .Where(s => s.EndsWith(".aspx") || s.EndsWith(".ascx")))
             {
@@ -52,12 +53,12 @@ namespace TranslationCrawler
             return relativeFilePath;
         }
 
-        public IEnumerable<string> GetAllResourceFullFiles()
+        public IEnumerable<string> GetAllControlsFullFilePaths()
         {
             foreach (var filePath in Directory.GetFiles(GetBaseSource(), "*.*", SearchOption.AllDirectories)
                                               .Where(s => s.EndsWith(".aspx") || s.EndsWith(".ascx")))
             {
-                    yield return filePath;
+                yield return filePath;
             }
         }
 
@@ -96,6 +97,24 @@ namespace TranslationCrawler
         {
             var fullPath = Path.Combine(GetBaseSource(), destinationRelativeFilePath);
             return fullPath;
+        }
+
+        public string GetResourceFilePath(string sourceRelativeFilePath, string language)
+        {
+            var controlFilePath = Path.Combine(GetBaseSource(), sourceRelativeFilePath);
+            var controlFileName = Path.GetFileName(controlFilePath);
+
+            string expectedResourceFilePath = null;
+            if (language == "en")
+            {
+                expectedResourceFilePath = Path.Combine(Path.GetDirectoryName(controlFilePath), $"{_resourceFolderName}\\{controlFileName}{_resourceFileExtension}");
+            }
+            else
+            {
+                expectedResourceFilePath = Path.Combine(Path.GetDirectoryName(controlFilePath), $"{_resourceFolderName}\\{controlFileName}.{language}{_resourceFileExtension}");
+            }
+            
+            return expectedResourceFilePath;
         }
     }
 }

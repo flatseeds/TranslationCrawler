@@ -15,6 +15,8 @@ namespace TranslationCrawler.Test
                                                     ?.Replace(Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name, @"bin\Debug"), string.Empty);
 
         private readonly string _baseSourceProjectName = "TestDec";
+        private readonly string _resourceFolderName = "App_LocalResources";
+        private readonly string _resourceFileExtension = ".resx";
 
         private readonly string _destinationRelativeFilePath = @"UserControls\TestUC.ascx";
         private readonly string _sourceRelativeFilePath = @"Account\Login.aspx";
@@ -47,11 +49,11 @@ namespace TranslationCrawler.Test
         }
 
         [TestMethod]
-        public void FolderHandler_GetAllResourceFullFiles_Count()
+        public void FolderHandler_GetAllControlsFullFilePaths_Count()
         {
             var folderHandler = new FolderHandler();
 
-            var resourceFiles = folderHandler.GetAllResourceFullFiles().ToList();
+            var resourceFiles = folderHandler.GetAllControlsFullFilePaths().ToList();
 
             Assert.AreEqual(10, resourceFiles.Count);
 
@@ -61,11 +63,11 @@ namespace TranslationCrawler.Test
         }
 
         [TestMethod]
-        public void FolderHandler_GetAllResourceFiles_Count()
+        public void FolderHandler_GetAllControlsFiles_Count()
         {
             var folderHandler = new FolderHandler();
 
-            var resourceFiles = folderHandler.GetAllResourceFiles().ToList();
+            var resourceFiles = folderHandler.GetAllControlsFiles().ToList();
 
             Assert.AreEqual(10, resourceFiles.Count);
 
@@ -126,6 +128,32 @@ namespace TranslationCrawler.Test
             var fullPath = folderHandler.GetFullPath(_destinationRelativeFilePath);
 
             Assert.AreEqual(Path.Combine(_solutionFolder, _baseSourceProjectName + "\\" + _destinationRelativeFilePath), fullPath);
+        }
+
+        [TestMethod]
+        public void FolderHandler_GetResourceFilePath_en()
+        {
+            var folderHandler = new FolderHandler();
+
+            var resourceFilePath = folderHandler.GetResourceFilePath(_sourceRelativeFilePath, "en");
+
+            var sourceFile = Path.Combine(_solutionFolder, _baseSourceProjectName + "\\" + _sourceRelativeFilePath);
+            var sourceFileName = Path.GetFileName(sourceFile);
+            var expectedResourceFilePath = Path.Combine(Path.GetDirectoryName(sourceFile), _resourceFolderName + "\\" + sourceFileName + _resourceFileExtension);
+            Assert.AreEqual(expectedResourceFilePath, resourceFilePath);
+        }
+
+        [TestMethod]
+        public void FolderHandler_GetResourceFilePath_de()
+        {
+            var folderHandler = new FolderHandler();
+
+            var resourceFilePath = folderHandler.GetResourceFilePath(_sourceRelativeFilePath, "de");
+
+            var sourceFile = Path.Combine(_solutionFolder, _baseSourceProjectName + "\\" + _sourceRelativeFilePath);
+            var sourceFileName = Path.GetFileName(sourceFile);
+            var expectedResourceFilePath = Path.Combine(Path.GetDirectoryName(sourceFile), $"{_resourceFolderName}\\{sourceFileName}.de{_resourceFileExtension}");
+            Assert.AreEqual(expectedResourceFilePath, resourceFilePath);
         }
     }
 }

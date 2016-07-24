@@ -11,16 +11,37 @@ namespace TranslationCrawler
     {
         private readonly List<string> _languages;
         private readonly List<string> _resourceKeys;
+        private readonly IFolderHandler _folderHandler;
 
-        public TranslationHandler(List<string> languages, List<string> resourceKeys)
+        public TranslationHandler(List<string> languages, List<string> resourceKeys, IFolderHandler folderHandler)
         {
             _languages = languages;
             _resourceKeys = resourceKeys;
+            _folderHandler = folderHandler;
         }
 
         public void InsertTranslations(string sourceRelativePath, string destinationRelativePath)
         {
-            throw new NotImplementedException();
+            foreach(var language in _languages)
+            {
+                var translations = GetTranslations(sourceRelativePath, language);
+                // TODO: Check if resource already exists.
+
+                var destinationResourceFilePath = _folderHandler.GetResourceFilePath(destinationRelativePath, language);
+
+
+                using (ResXResourceWriter resx = new ResXResourceWriter(destinationResourceFilePath))
+                {
+                    foreach (var resourceKey in _resourceKeys)
+                    {
+                        foreach (var resourcesToInsert in translations.Where(r => r.Key.StartsWith(resourceKey)))
+                        {
+                            resx.AddResource(resourcesToInsert.Key, resourcesToInsert.Value);
+                        }
+                    }
+                    resx.Generate();
+                }
+            }
         }
 
         public void UpdateTranslations(string sourceRelativePath, string destinationRelativePath)
@@ -28,9 +49,19 @@ namespace TranslationCrawler
             throw new NotImplementedException();
         }
 
-        private Dictionary<string, string> GetTranslations(string sourceRelativePath)
+        private Dictionary<string, string> GetTranslations(string sourceRelativePath, string language)
         {
             var translations = new Dictionary<string, string>();
+
+            var resourceFilePath = _folderHandler.GetResourceFilePath(sourceRelativePath, language);
+            using (ResXResourceSet resxSet = new ResXResourceSet(resourceFilePath))
+            {
+                foreach(DictionaryEntry resource in resxSet)
+                {
+                    translations.Add(resource.Key.ToString(), resource.Value.ToString());
+                }
+            }
+
             return translations;
         } 
 

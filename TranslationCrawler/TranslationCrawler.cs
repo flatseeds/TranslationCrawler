@@ -13,8 +13,6 @@ namespace TranslationCrawler
     // TODO: Move crawler implementation to seprate class.
     public partial class TranslationCrawler : Form
     {
-        private readonly string _resourceFolderName = "App_LocalResources";
-        private readonly string _resourceFileExtension = ".resx";
         private readonly string _allLanguages = "all";
 
         private readonly FolderHandler _folderHandler;
@@ -27,7 +25,7 @@ namespace TranslationCrawler
 
             txtBaseSource.Text = _folderHandler.GetBaseSource();
 
-            var resourceFiles = _folderHandler.GetAllResourceFiles().OrderBy(r => r).ToArray<object>();
+            var resourceFiles = _folderHandler.GetAllControlsFiles().OrderBy(r => r).ToArray<object>();
             if (resourceFiles.Length > 0)
             {
                 cbxSourcePath.Items.AddRange(resourceFiles);
@@ -70,7 +68,7 @@ namespace TranslationCrawler
             var sourceLanguages = GetLanguages().ToList();
             var resourceKeys = lbxTranslations.Items.Cast<string>().ToList();
 
-            var translationHandler = new TranslationHandler(sourceLanguages, resourceKeys);
+            var translationHandler = new TranslationHandler(sourceLanguages, resourceKeys, _folderHandler);
             if (rbtInsert.Checked)
             {
                 translationHandler.InsertTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString());
@@ -79,8 +77,6 @@ namespace TranslationCrawler
             {
                 translationHandler.UpdateTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString());
             }
-
-            GetControlResourceFilePath(cbxSourcePath.SelectedItem.ToString());
         }
 
         private IEnumerable<string> GetLanguages()
@@ -94,84 +90,9 @@ namespace TranslationCrawler
                     yield return sourceLanguage;
                 }
             }
-
-            yield return selectedLanguage;
-        } 
-
-        private string GetControlResourceFilePath(string controlPath)
-        {
-            var sourceControlFullPath = GetControlPath(controlPath);
-            if (sourceControlFullPath == null) return null;
-
-            var resourceDirectory = Path.GetDirectoryName(sourceControlFullPath);
-            var sourceControlName = Path.GetFileName(sourceControlFullPath);
-
-
-            var destinationControlFullPath = GetControlPath(cbxDestinationPath.SelectedItem.ToString());
-            if (destinationControlFullPath == null) return null;
-
-            var destonationResourceDirectory = Path.GetDirectoryName(destinationControlFullPath);
-            var destinationControlName = Path.GetFileName(destinationControlFullPath);
-
-            foreach (var resourceFile in GetReourceFiles(resourceDirectory, sourceControlName + _resourceFileExtension))
+            else
             {
-                var resourcesToCopy = new Dictionary<string, string>();
-                using (ResXResourceSet resxSet = new ResXResourceSet(resourceFile))
-                {
-                    foreach (var destinationControlResource in this.lbxTranslations.Items)
-                    {
-                        var resourceName = destinationControlResource.ToString();
-                        var translation = resxSet.GetString(resourceName);
-                        if (translation == null) continue;
-
-                        resourcesToCopy.Add(resourceName, translation);
-                    }
-                }
-
-                var destinationResourceFilePath = Path.Combine(destonationResourceDirectory,
-                        _resourceFolderName + "\\" + destinationControlName + _resourceFileExtension);
-                using (ResXResourceWriter resx = new ResXResourceWriter(destinationResourceFilePath))
-                {
-                    foreach (var resource in resourcesToCopy)
-                    {
-                        resx.AddResource(resource.Key, resource.Value);
-                    }
-                    resx.Generate();
-                }
-
-                //var sourcerXML = XDocument.Load(resourceFile);
-                //var resourceSourceDataElements = sourcerXML.Descendants("data");
-
-                //var resourceDestination = XDocument.Load(Path.Combine(destonationResourceDirectory,
-                //    ResourceFolderName + "\\" + destinationControlName + ResourceFileExtension)).Root;
-
-                //foreach (var destinationControlResource in this.lbxTranslations.Items)
-                //{
-                //    foreach (var resource in resourceSourceDataElements.Where(x => x.Attribute("name").Value.StartsWith(destinationControlResource.ToString())))
-                //    {
-                //        var resourceKey = resource.Attribute("name").Value;
-                //        var resourceValue = resource.Value;
-
-                //        var data = new XElement("data", new XAttribute("name", "resourceKey"), 
-                //                                        new XAttribute("xml:space", "preserve"),
-                //                            new XElement("value", "resourceValue"));
-                //        resourceDestination.Elements().Last().Add(data);
-                //    }
-                //}
-                //resourceDestination.Save(resourceFile + "1");
-            }
-
-            return sourceControlFullPath;
-        }
-
-        private IEnumerable<string> GetReourceFiles(string resourceDirectory, string controlName)
-        {
-            foreach (var resourceFile in Directory.EnumerateFiles(Path.Combine(resourceDirectory, _resourceFolderName)))
-            {
-                if (resourceFile.Contains(controlName))
-                {
-                    yield return resourceFile;
-                }
+                yield return selectedLanguage;
             }
         }
 
