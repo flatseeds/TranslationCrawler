@@ -7,6 +7,6 @@ namespace TranslationCrawler
         string GetBaseSource();
         IEnumerable<string> GetAllResourceFiles();
         IEnumerable<string> GetAllResourceFullFiles();
-        string GetFileRelativePath(string fileFullPath);
+        string GetRelativeFilePath(string fileFullPath);
     }
 }

@@ -38,11 +38,11 @@ namespace TranslationCrawler
             foreach (var filePath in Directory.GetFiles(GetBaseSource(), "*.*", SearchOption.AllDirectories)
                                               .Where(s => s.EndsWith(".aspx") || s.EndsWith(".ascx")))
             {
-                yield return GetFileRelativePath(filePath);
+                yield return GetRelativeFilePath(filePath);
             }
         }
 
-        public string GetFileRelativePath(string fileFullPath)
+        public string GetRelativeFilePath(string fileFullPath)
         {
             var baseSourceLength = GetBaseSource().Length + 1;
             var relativeFilePath = fileFullPath.Substring(baseSourceLength, fileFullPath.Length - baseSourceLength);

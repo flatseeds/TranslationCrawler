@@ -11,8 +11,10 @@ namespace TranslationCrawler.Test
     public class FolderHandlerTest
     {
         // Get real solution directory instead.
-        private string _solutionFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
-                                            .Replace(Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name, @"bin\Debug"), string.Empty);
+        private readonly string _solutionFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
+                                                    .Replace(Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name, @"bin\Debug"), string.Empty);
+
+        private readonly string _baseSourceProjectName = "TestDec";
 
         [TestMethod]
         public void GetBaseSource_AppConfig()
@@ -36,7 +38,7 @@ namespace TranslationCrawler.Test
 
             var baseSource = folderHandler.GetBaseSource();
 
-            Assert.AreEqual(Path.Combine(_solutionFolder, "TestDec"), baseSource);
+            Assert.AreEqual(Path.Combine(_solutionFolder, _baseSourceProjectName), baseSource);
         }
 
         [TestMethod]
@@ -77,10 +79,15 @@ namespace TranslationCrawler.Test
             var folderHandler = new FolderHandler();
 
             var resourceRelativeFilePath =
-                folderHandler.GetFileRelativePath(Path.Combine(_solutionFolder, @"TestDec\UserControls\TestUC.ascx"));
-                    //@"C:\Users\drazenp86\Source\Repos\TranslationCrawler\TestDec\UserControls\TestUC.ascx");
+                folderHandler.GetRelativeFilePath(Path.Combine(_solutionFolder, _baseSourceProjectName + @"\UserControls\TestUC.ascx"));
 
             Assert.AreEqual(@"UserControls\TestUC.ascx", resourceRelativeFilePath);
+        }
+
+        [TestMethod]
+        public void GetAllSourceFiles()
+        {
+
         }
     }
 }
