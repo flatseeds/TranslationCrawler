@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crawler.cs" />
+    <Compile Include="DatabaseHandler.cs" />
     <Compile Include="FolderHandler.cs" />
     <Compile Include="IFolderHandler.cs" />
     <Compile Include="TranslationCrawler.cs">

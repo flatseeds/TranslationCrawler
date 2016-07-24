@@ -68,7 +68,8 @@ namespace TranslationCrawler
             var sourceLanguages = GetLanguages().ToList();
             var resourceKeys = lbxTranslations.Items.Cast<string>().ToList();
 
-            var translationHandler = new TranslationHandler(sourceLanguages, resourceKeys, _folderHandler);
+            var databaseHandler = new DatabaseHandler("connection string");
+            var translationHandler = new TranslationHandler(sourceLanguages, resourceKeys, _folderHandler, databaseHandler);
             if (rbtInsert.Checked)
             {
                 translationHandler.InsertTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString());
