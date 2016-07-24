@@ -117,4 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="resource1.Tooltip" xml:space="preserve">
+    <value>sdfds</value>
+  </data>
+  <data name="resource1.Text" xml:space="preserve">
+    <value>sdafkjsdalfkj</value>
+  </data>
+  <data name="valid.ErrorMessage" xml:space="preserve">
+    <value>The user name field is required.</value>
+  </data>
+  <data name="resource_pass.Text" xml:space="preserve">
+    <value>pass_text</value>
+  </data>
+  <data name="resource_pass.Tooltip" xml:space="preserve">
+    <value>sdklajflsakjdkkkkkkk</value>
+  </data>
+  <data name="resourceliteral.Text" xml:space="preserve">
+    <value>dsklaflksdj</value>
+  </data>
+  <data name="lblCopyParentNameResource1.Text" xml:space="preserve">
+    <value>ddddddddddddddd</value>
+  </data>
+  <data name="lblCopyStatusMessageResource1.Text" xml:space="preserve">
+    <value>ssssssssssssssssssssssssssss</value>
+  </data>
+  <data name="StatusMessage1" xml:space="preserve">
+    <value>ss</value>
+  </data>
+  <data name="LiteralResource31.Text" xml:space="preserve">
+    <value>sdfsdfsdfsdf</value>
+  </data>
 </root>

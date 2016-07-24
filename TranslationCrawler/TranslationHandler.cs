@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace TranslationCrawler
             _databaseHandler = databaseHandler;
         }
 
-        public void InsertTranslations(string sourceRelativePath, string destinationRelativePath)
+        public IEnumerable<string> InsertTranslations(string sourceRelativePath, string destinationRelativePath)
         {
             foreach (var language in _languages)
             {
@@ -31,20 +30,25 @@ namespace TranslationCrawler
                 var destinationResourceFilePath = _folderHandler.GetResourceFilePath(destinationRelativePath, language);
                 using (ResXResourceWriter resx = new ResXResourceWriter(destinationResourceFilePath))
                 {
+                    foreach(var existingTranslation in GetTranslations(destinationRelativePath, language))
+                    {
+                        resx.AddResource(existingTranslation.Key, existingTranslation.Value);
+                    }
+
                     foreach (var resourceKey in _resourceKeys)
                     {
                         foreach (var resourcesToInsert in translations.Where(r => r.Key.StartsWith(resourceKey)))
                         {
                             _databaseHandler.SaveTranslationMovingHistory(sourceRelativePath, destinationRelativePath, resourceKey, language);
                             resx.AddResource(resourcesToInsert.Key, resourcesToInsert.Value);
+                            yield return $"{language} {resourcesToInsert.Key}";
                         }
                     }
-                    resx.Generate();
                 }
             }
         }
 
-        public void UpdateTranslations(string sourceRelativePath, string destinationRelativePath)
+        public IEnumerable<string> UpdateTranslations(string sourceRelativePath, string destinationRelativePath)
         {
             foreach (var language in _languages)
             {
@@ -53,14 +57,16 @@ namespace TranslationCrawler
                 var destinationResourceFilePath = _folderHandler.GetResourceFilePath(destinationRelativePath, language);
                 using (ResXResourceWriter resx = new ResXResourceWriter(destinationResourceFilePath))
                 {
+                    // TODO: Insert existing translations.
+
                     foreach (var resourceKey in _resourceKeys)
                     {
                         foreach (var resourcesToInsert in translations.Where(r => r.Key.StartsWith(resourceKey)))
                         {
                             resx.AddResource(resourcesToInsert.Key, resourcesToInsert.Value);
+                            yield return $"{language} {resourcesToInsert.Key}";
                         }
                     }
-                    resx.Generate();
                 }
             }
         }
@@ -76,6 +82,7 @@ namespace TranslationCrawler
         private IEnumerable<KeyValuePair<string, string>> GetTranslationsForUpdate(string sourceRelativePath, string destinationRelativePath, string language)
         {
             var existingTranslations = GetTranslations(destinationRelativePath, language);
+
             return existingTranslations;
         }
 

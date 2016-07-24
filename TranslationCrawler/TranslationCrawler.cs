@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Resources;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace TranslationCrawler
 {
-    // TODO: Rename textbox variables - also could be dropbox.
-    // TODO: Move crawler implementation to seprate class.
     public partial class TranslationCrawler : Form
     {
         private readonly string _allLanguages = "all";
@@ -39,6 +34,8 @@ namespace TranslationCrawler
 
         private void btnCrawl_Click(object sender, EventArgs e)
         {
+            lbxTranslations.Items.Clear();
+
             var sourceRelativePath = cbxSourcePath.SelectedItem.ToString();
             if (string.IsNullOrEmpty(sourceRelativePath))
             {
@@ -70,13 +67,23 @@ namespace TranslationCrawler
 
             var databaseHandler = new DatabaseHandler("connection string");
             var translationHandler = new TranslationHandler(sourceLanguages, resourceKeys, _folderHandler, databaseHandler);
+            lbxInsertedTranslations.Items.Clear();
             if (rbtInsert.Checked)
             {
-                translationHandler.InsertTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString());
+                foreach(var insertedTranslation in translationHandler.InsertTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString()))
+                {
+                    lbxInsertedTranslations.ForeColor = System.Drawing.Color.MediumVioletRed;
+                    lbxInsertedTranslations.Items.Add(insertedTranslation);
+                }
             }
             else
             {
-                translationHandler.UpdateTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString());
+                // TODO: Not implemented. 1. Destination own translations are removed on update. 2. It seems it's not possible to find which translation to update sinse translation extension is missing in resourceKeys (e.g. .Text).
+                //foreach (var updatedTranslation in translationHandler.UpdateTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString()))
+                //{
+                //    lbxInsertedTranslations.ForeColor = System.Drawing.Color.BlueViolet;
+                //    lbxInsertedTranslations.Items.Add(updatedTranslation);
+                //}
             }
         }
 
