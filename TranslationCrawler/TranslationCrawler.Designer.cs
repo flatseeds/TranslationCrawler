@@ -39,6 +39,10 @@
             this.cbxDestinationPath = new System.Windows.Forms.ComboBox();
             this.lblLanguages = new System.Windows.Forms.Label();
             this.cbxLanguages = new System.Windows.Forms.ComboBox();
+            this.rbtInsert = new System.Windows.Forms.RadioButton();
+            this.rbtUpdate = new System.Windows.Forms.RadioButton();
+            this.grbActions = new System.Windows.Forms.GroupBox();
+            this.grbActions.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblSourcePath
@@ -78,14 +82,14 @@
             // lbxTranslations
             // 
             this.lbxTranslations.FormattingEnabled = true;
-            this.lbxTranslations.Location = new System.Drawing.Point(12, 203);
+            this.lbxTranslations.Location = new System.Drawing.Point(12, 190);
             this.lbxTranslations.Name = "lbxTranslations";
-            this.lbxTranslations.Size = new System.Drawing.Size(262, 290);
+            this.lbxTranslations.Size = new System.Drawing.Size(262, 303);
             this.lbxTranslations.TabIndex = 6;
             // 
             // btnCrawl
             // 
-            this.btnCrawl.Location = new System.Drawing.Point(12, 174);
+            this.btnCrawl.Location = new System.Drawing.Point(12, 156);
             this.btnCrawl.Name = "btnCrawl";
             this.btnCrawl.Size = new System.Drawing.Size(126, 23);
             this.btnCrawl.TabIndex = 7;
@@ -95,7 +99,7 @@
             // 
             // btnCopyTranslation
             // 
-            this.btnCopyTranslation.Location = new System.Drawing.Point(148, 174);
+            this.btnCopyTranslation.Location = new System.Drawing.Point(148, 156);
             this.btnCopyTranslation.Name = "btnCopyTranslation";
             this.btnCopyTranslation.Size = new System.Drawing.Size(126, 23);
             this.btnCopyTranslation.TabIndex = 8;
@@ -137,11 +141,45 @@
             this.cbxLanguages.Size = new System.Drawing.Size(126, 21);
             this.cbxLanguages.TabIndex = 12;
             // 
+            // rbtInsert
+            // 
+            this.rbtInsert.AutoSize = true;
+            this.rbtInsert.Location = new System.Drawing.Point(16, 19);
+            this.rbtInsert.Name = "rbtInsert";
+            this.rbtInsert.Size = new System.Drawing.Size(51, 17);
+            this.rbtInsert.TabIndex = 14;
+            this.rbtInsert.TabStop = true;
+            this.rbtInsert.Text = "Insert";
+            this.rbtInsert.UseVisualStyleBackColor = true;
+            // 
+            // rbtUpdate
+            // 
+            this.rbtUpdate.AutoSize = true;
+            this.rbtUpdate.Location = new System.Drawing.Point(16, 42);
+            this.rbtUpdate.Name = "rbtUpdate";
+            this.rbtUpdate.Size = new System.Drawing.Size(60, 17);
+            this.rbtUpdate.TabIndex = 15;
+            this.rbtUpdate.TabStop = true;
+            this.rbtUpdate.Text = "Update";
+            this.rbtUpdate.UseVisualStyleBackColor = true;
+            // 
+            // grbActions
+            // 
+            this.grbActions.Controls.Add(this.rbtInsert);
+            this.grbActions.Controls.Add(this.rbtUpdate);
+            this.grbActions.Location = new System.Drawing.Point(356, 109);
+            this.grbActions.Name = "grbActions";
+            this.grbActions.Size = new System.Drawing.Size(200, 70);
+            this.grbActions.TabIndex = 16;
+            this.grbActions.TabStop = false;
+            this.grbActions.Text = "Actions:";
+            // 
             // TranslationCrawler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(570, 505);
+            this.Controls.Add(this.grbActions);
             this.Controls.Add(this.cbxLanguages);
             this.Controls.Add(this.lblLanguages);
             this.Controls.Add(this.cbxDestinationPath);
@@ -155,6 +193,8 @@
             this.Controls.Add(this.lblSourcePath);
             this.Name = "TranslationCrawler";
             this.Text = "Translation Crawler";
+            this.grbActions.ResumeLayout(false);
+            this.grbActions.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,6 +213,9 @@
         private System.Windows.Forms.ComboBox cbxDestinationPath;
         private System.Windows.Forms.Label lblLanguages;
         private System.Windows.Forms.ComboBox cbxLanguages;
+        private System.Windows.Forms.RadioButton rbtInsert;
+        private System.Windows.Forms.RadioButton rbtUpdate;
+        private System.Windows.Forms.GroupBox grbActions;
     }
 }
 

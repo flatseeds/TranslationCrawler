@@ -35,6 +35,8 @@ namespace TranslationCrawler
                 cbxDestinationPath.Items.AddRange(resourceFiles);
                 cbxDestinationPath.SelectedIndex = 8;
             }
+
+            rbtInsert.Checked = true;
         }
 
         private void btnCrawl_Click(object sender, EventArgs e)
