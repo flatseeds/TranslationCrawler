@@ -29,13 +29,6 @@ Partial Class Account_Manage
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not IsPostBack Then
-            ' Determine the sections to render
-            Dim hasLocalPassword = OpenAuth.HasLocalPassword(User.Identity.Name)
-            setPassword.Visible = Not hasLocalPassword
-            changePassword.Visible = hasLocalPassword
-
-            CanRemoveExternalLogins = hasLocalPassword
-
             ' Render success message
             Dim message = Request.QueryString("m")
             If Not message Is Nothing Then
@@ -56,26 +49,10 @@ Partial Class Account_Manage
                 successMessage.Visible = Not String.IsNullOrEmpty(SuccessMessageText)
             End If
         End If
-
-         
-        ' Data-bind the list of external accounts
-        Dim accounts As IEnumerable(Of OpenAuthAccountData) = OpenAuth.GetAccountsForUser(User.Identity.Name)
-        CanRemoveExternalLogins = CanRemoveExternalLogins Or accounts.Count() > 1
-        externalLoginsList.DataSource = accounts
-        externalLoginsList.DataBind()
-        
     End Sub
 
     Protected Sub setPassword_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         If IsValid Then
-            Dim result As SetPasswordResult = OpenAuth.AddLocalPassword(User.Identity.Name, password.Text)
-            If result.IsSuccessful Then
-                Response.Redirect("~/Account/Manage?m=SetPwdSuccess")
-            Else
-                
-                newPasswordMessage.Text = result.ErrorMessage
-                
-            End If
         End If
     End Sub
 
@@ -83,8 +60,6 @@ Partial Class Account_Manage
     Protected Sub externalLoginsList_ItemDeleting(ByVal sender As Object, ByVal e As ListViewDeleteEventArgs)
         Dim providerName As String = DirectCast(e.Keys("ProviderName"), String)
         Dim providerUserId As String = DirectCast(e.Keys("ProviderUserId"), String)
-        Dim m As String = If(OpenAuth.DeleteAccount(User.Identity.Name, providerName, providerUserId), "?m=RemoveLoginSuccess", String.Empty)
-        Response.Redirect("~/Account/Manage" & m)
     End Sub
 
     Protected Function Item(Of T As Class)() As T

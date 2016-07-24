@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Manage Account" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="Manage.aspx.vb" Inherits="Account_Manage" %>
 <%@ Register Src="~/Account/OpenAuthProviders.ascx" TagPrefix="uc" TagName="OpenAuthProviders" %>
-<%@ Import Namespace="Microsoft.AspNet.Membership.OpenAuth" %>
+
 <asp:Content ContentPlaceHolderID="MainContent" Runat="Server">
     <hgroup class="title">
         <h1><%: Title %>.</h1>
@@ -106,20 +106,10 @@
             <ItemTemplate>
                 <tr>
                     
-                    <td><%# HttpUtility.HtmlEncode(Item(Of OpenAuthAccountData)().ProviderDisplayName) %></td>
-                    <td><%# HttpUtility.HtmlEncode(Item(Of OpenAuthAccountData)().ProviderUserName) %></td>
-                    <td><%# HttpUtility.HtmlEncode(ConvertToDisplayDateTime(Item(Of OpenAuthAccountData).LastUsedUtc)) %></td>
-                    <td>
-                        <asp:Button runat="server" Text="Remove" CommandName="Delete" CausesValidation="false" 
-                            ToolTip='<%# "Remove this " & Item(Of OpenAuthAccountData)().ProviderDisplayName & " login from your account" %>'
-                            Visible="<%# CanRemoveExternalLogins %>" />
-                    </td>
-                    
                 </tr>
             </ItemTemplate>
         </asp:ListView>
 
         <h3>Add an external login</h3>
-        <uc:OpenAuthProviders runat="server" ReturnUrl="~/Account/Manage" />
     </section>
 </asp:Content>

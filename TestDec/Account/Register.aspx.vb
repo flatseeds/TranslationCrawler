@@ -11,9 +11,6 @@ Partial Class Account_Register
         FormsAuthentication.SetAuthCookie(RegisterUser.UserName, createPersistentCookie:=False)
 
         Dim continueUrl As String = RegisterUser.ContinueDestinationPageUrl
-        If Not OpenAuth.IsLocalUrl(continueUrl) Then
-            continueUrl = "~/"
-        End If
 
         Response.Redirect(continueUrl)
     End Sub

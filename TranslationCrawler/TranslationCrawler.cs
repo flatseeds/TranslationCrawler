@@ -16,11 +16,15 @@ namespace TranslationCrawler
         private readonly string ResourceFolderName = "App_LocalResources";
         private readonly string ResourceFileExtension = ".resx";
 
+        private FolderHandler _folderHandler;
+
         public TranslationCrawler()
         {
             InitializeComponent();
 
-            this.txtBaseSource.Text = @"C:\Users\Drazen\Source\Repos\TranslationCrawler\TestDec";
+            _folderHandler = new FolderHandler();
+
+            this.txtBaseSource.Text = _folderHandler.GetBaseSource();
             this.txtSourcePath.Text = @"Account\Login.aspx";
             this.txtDesinationPath.Text = @"UserControls\TestUC.ascx";
         }
@@ -76,7 +80,7 @@ namespace TranslationCrawler
             var sourceControlName = Path.GetFileName(sourceControlFullPath);
 
 
-            var destinationControlFullPath = GetControlPath(controlPath);
+            var destinationControlFullPath = GetControlPath(txtDesinationPath.Text);
             if (destinationControlFullPath == null) return null;
 
             var destonationResourceDirectory = Path.GetDirectoryName(destinationControlFullPath);
@@ -105,7 +109,7 @@ namespace TranslationCrawler
                     {
                         resx.AddResource(resource.Key, resource.Value);
                     }
-                    
+                    resx.Generate();
                 }
 
                     //var sourcerXML = XDocument.Load(resourceFile);

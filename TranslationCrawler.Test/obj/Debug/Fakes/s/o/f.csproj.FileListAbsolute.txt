@@ -1,0 +1,11 @@
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\b\System.configuration.4.0.0.0.Fakes.xml
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\b\System.configuration.4.0.0.0.Fakes.dll
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\b\System.configuration.4.0.0.0.Fakes.pdb
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\b\Microsoft.QualityTools.Testing.Fakes.dll
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\b\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\b\TranslationCrawler.exe
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\b\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\b\TranslationCrawler.pdb
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\o\f.csprojResolveAssemblyReference.cache
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\o\System.configuration.4.0.0.0.Fakes.dll
+C:\Users\drazenp86\Source\Repos\TranslationCrawler\TranslationCrawler.Test\obj\Debug\Fakes\s\o\System.configuration.4.0.0.0.Fakes.pdb

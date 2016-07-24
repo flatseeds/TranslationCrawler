@@ -1,15 +1,10 @@
 ﻿<%@ Control Language="VB" AutoEventWireup="false" CodeFile="OpenAuthProviders.ascx.vb" Inherits="Account_OpenAuthProviders" %>
-<%@ Import Namespace="Microsoft.AspNet.Membership.OpenAuth" %>
 
 <fieldset class="open-auth-providers">
     <legend>Log in using another service</legend>
     
     <asp:ListView runat="server" ID="providersList" ViewStateMode="Disabled">
         <ItemTemplate>
-            <button type="submit" name="provider" value="<%# HttpUtility.HtmlAttributeEncode(Item(Of ProviderDetails)().ProviderName) %>"
-                title="Log in using your <%# HttpUtility.HtmlAttributeEncode(Item(Of ProviderDetails)().ProviderDisplayName) %> account.">
-                <%# HttpUtility.HtmlEncode(Item(Of ProviderDetails)().ProviderDisplayName) %>
-            </button>
         </ItemTemplate>
     
         <EmptyDataTemplate>

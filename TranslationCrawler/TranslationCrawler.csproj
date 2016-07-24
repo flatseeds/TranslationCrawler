@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FolderHandler.cs" />
+    <Compile Include="IFolderHandler.cs" />
     <Compile Include="TranslationCrawler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +67,7 @@
     <EmbeddedResource Include="TranslationCrawler.resx">
       <DependentUpon>TranslationCrawler.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

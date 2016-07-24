@@ -19,15 +19,11 @@ Partial Class Account_OpenAuthProviders
                 Dim resolvedReturnUrl = ResolveUrl(ReturnUrl)
                 redirectUrl += "?ReturnUrl=" + HttpUtility.UrlEncode(resolvedReturnUrl)
             End If
-
-            OpenAuth.RequestAuthentication(provider, redirectUrl)
         End If
     End Sub
 
     
     Protected Sub Page_PreRenderComplete(ByVal sender As Object, ByVal e As System.EventArgs)
-        providersList.DataSource = OpenAuth.AuthenticationClients.GetAll()
-        providersList.DataBind()
     End Sub
 
     Protected Function Item(Of T As Class)() As T
