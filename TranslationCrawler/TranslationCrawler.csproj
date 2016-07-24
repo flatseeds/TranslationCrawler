@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crawler.cs" />
     <Compile Include="FolderHandler.cs" />
     <Compile Include="IFolderHandler.cs" />
     <Compile Include="TranslationCrawler.cs">

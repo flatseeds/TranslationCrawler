@@ -1,16 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace TranslationCrawler
 {
     public class FolderHandler : IFolderHandler
     {
         private readonly string _applicationName = "TestDec";
+        private readonly string _resourceFolderName = "App_LocalResources";
+        private readonly string _resourceFileExtension = ".resx";
 
+        // Used only for caching purpose.
         private string _baseSourcePath;
         public string GetBaseSource()
         {
@@ -56,6 +59,43 @@ namespace TranslationCrawler
             {
                     yield return filePath;
             }
+        }
+
+        public IEnumerable<string> GetAllSourceLanguages(string sourcePath)
+        {
+            var sourceDirectory = Path.GetDirectoryName(Path.Combine(GetBaseSource(), sourcePath));
+            if (sourceDirectory == null || !Directory.Exists(sourceDirectory))
+            {
+                yield break;
+            }
+
+            var resourceDirectory = Path.Combine(sourceDirectory, _resourceFolderName);
+            if (!Directory.Exists(resourceDirectory))
+            {
+                yield break;
+            }
+
+            var sourceFile = Path.GetFileName(sourcePath);
+
+            foreach (var resourceFile in Directory.GetFiles(resourceDirectory, sourceFile + "*"))
+            {
+                if (Path.GetFileName(resourceFile) == sourceFile + _resourceFileExtension)
+                {
+                    yield return "en";
+                    continue;
+                }
+
+                var resourceFileWithoutExtension = Path.GetFileNameWithoutExtension(resourceFile);
+                var indexOfLastDot = resourceFileWithoutExtension.LastIndexOf('.') + 1;
+                var language = resourceFileWithoutExtension.Substring(indexOfLastDot, resourceFileWithoutExtension.Length - indexOfLastDot);
+                yield return language;
+            }
+        }
+
+        public string GetFullPath(string destinationRelativeFilePath)
+        {
+            var fullPath = Path.Combine(GetBaseSource(), destinationRelativeFilePath);
+            return fullPath;
         }
     }
 }

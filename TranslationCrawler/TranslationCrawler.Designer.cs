@@ -29,62 +29,50 @@
         private void InitializeComponent()
         {
             this.lblSourcePath = new System.Windows.Forms.Label();
-            this.txtSourcePath = new System.Windows.Forms.TextBox();
             this.lblDestinationPath = new System.Windows.Forms.Label();
-            this.txtDesinationPath = new System.Windows.Forms.TextBox();
             this.lblBaseSource = new System.Windows.Forms.Label();
             this.txtBaseSource = new System.Windows.Forms.TextBox();
             this.lbxTranslations = new System.Windows.Forms.ListBox();
             this.btnCrawl = new System.Windows.Forms.Button();
             this.btnCopyTranslation = new System.Windows.Forms.Button();
+            this.cbxSourcePath = new System.Windows.Forms.ComboBox();
+            this.cbxDestinationPath = new System.Windows.Forms.ComboBox();
+            this.lblLanguages = new System.Windows.Forms.Label();
+            this.cbxLanguages = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblSourcePath
             // 
             this.lblSourcePath.AutoSize = true;
-            this.lblSourcePath.Location = new System.Drawing.Point(13, 52);
+            this.lblSourcePath.Location = new System.Drawing.Point(13, 47);
             this.lblSourcePath.Name = "lblSourcePath";
             this.lblSourcePath.Size = new System.Drawing.Size(69, 13);
             this.lblSourcePath.TabIndex = 0;
             this.lblSourcePath.Text = "Source Path:";
             // 
-            // txtSourcePath
-            // 
-            this.txtSourcePath.Location = new System.Drawing.Point(130, 49);
-            this.txtSourcePath.Name = "txtSourcePath";
-            this.txtSourcePath.Size = new System.Drawing.Size(201, 20);
-            this.txtSourcePath.TabIndex = 1;
-            // 
             // lblDestinationPath
             // 
             this.lblDestinationPath.AutoSize = true;
-            this.lblDestinationPath.Location = new System.Drawing.Point(13, 76);
+            this.lblDestinationPath.Location = new System.Drawing.Point(13, 79);
             this.lblDestinationPath.Name = "lblDestinationPath";
-            this.lblDestinationPath.Size = new System.Drawing.Size(85, 13);
+            this.lblDestinationPath.Size = new System.Drawing.Size(88, 13);
             this.lblDestinationPath.TabIndex = 2;
-            this.lblDestinationPath.Text = "Destination Path";
-            // 
-            // txtDesinationPath
-            // 
-            this.txtDesinationPath.Location = new System.Drawing.Point(130, 76);
-            this.txtDesinationPath.Name = "txtDesinationPath";
-            this.txtDesinationPath.Size = new System.Drawing.Size(201, 20);
-            this.txtDesinationPath.TabIndex = 3;
+            this.lblDestinationPath.Text = "Destination Path:";
             // 
             // lblBaseSource
             // 
             this.lblBaseSource.AutoSize = true;
-            this.lblBaseSource.Location = new System.Drawing.Point(13, 13);
+            this.lblBaseSource.Location = new System.Drawing.Point(14, 16);
             this.lblBaseSource.Name = "lblBaseSource";
-            this.lblBaseSource.Size = new System.Drawing.Size(68, 13);
+            this.lblBaseSource.Size = new System.Drawing.Size(71, 13);
             this.lblBaseSource.TabIndex = 5;
-            this.lblBaseSource.Text = "Base Source";
+            this.lblBaseSource.Text = "Base Source:";
             // 
             // txtBaseSource
             // 
-            this.txtBaseSource.Location = new System.Drawing.Point(130, 13);
+            this.txtBaseSource.Location = new System.Drawing.Point(148, 12);
             this.txtBaseSource.Name = "txtBaseSource";
-            this.txtBaseSource.Size = new System.Drawing.Size(201, 20);
+            this.txtBaseSource.Size = new System.Drawing.Size(408, 20);
             this.txtBaseSource.TabIndex = 4;
             // 
             // lbxTranslations
@@ -115,19 +103,55 @@
             this.btnCopyTranslation.UseVisualStyleBackColor = true;
             this.btnCopyTranslation.Click += new System.EventHandler(this.btnCopyTranslation_Click);
             // 
+            // cbxSourcePath
+            // 
+            this.cbxSourcePath.FormattingEnabled = true;
+            this.cbxSourcePath.Location = new System.Drawing.Point(148, 44);
+            this.cbxSourcePath.Name = "cbxSourcePath";
+            this.cbxSourcePath.Size = new System.Drawing.Size(408, 21);
+            this.cbxSourcePath.TabIndex = 9;
+            this.cbxSourcePath.SelectedIndexChanged += new System.EventHandler(this.cbxSourcePath_SelectedIndexChanged);
+            // 
+            // cbxDestinationPath
+            // 
+            this.cbxDestinationPath.FormattingEnabled = true;
+            this.cbxDestinationPath.Location = new System.Drawing.Point(148, 76);
+            this.cbxDestinationPath.Name = "cbxDestinationPath";
+            this.cbxDestinationPath.Size = new System.Drawing.Size(408, 21);
+            this.cbxDestinationPath.TabIndex = 10;
+            // 
+            // lblLanguages
+            // 
+            this.lblLanguages.AutoSize = true;
+            this.lblLanguages.Location = new System.Drawing.Point(13, 109);
+            this.lblLanguages.Name = "lblLanguages";
+            this.lblLanguages.Size = new System.Drawing.Size(63, 13);
+            this.lblLanguages.TabIndex = 11;
+            this.lblLanguages.Text = "Languages:";
+            // 
+            // cbxLanguages
+            // 
+            this.cbxLanguages.FormattingEnabled = true;
+            this.cbxLanguages.Location = new System.Drawing.Point(148, 109);
+            this.cbxLanguages.Name = "cbxLanguages";
+            this.cbxLanguages.Size = new System.Drawing.Size(126, 21);
+            this.cbxLanguages.TabIndex = 12;
+            // 
             // TranslationCrawler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(550, 505);
+            this.ClientSize = new System.Drawing.Size(570, 505);
+            this.Controls.Add(this.cbxLanguages);
+            this.Controls.Add(this.lblLanguages);
+            this.Controls.Add(this.cbxDestinationPath);
+            this.Controls.Add(this.cbxSourcePath);
             this.Controls.Add(this.btnCopyTranslation);
             this.Controls.Add(this.btnCrawl);
             this.Controls.Add(this.lbxTranslations);
             this.Controls.Add(this.lblBaseSource);
             this.Controls.Add(this.txtBaseSource);
-            this.Controls.Add(this.txtDesinationPath);
             this.Controls.Add(this.lblDestinationPath);
-            this.Controls.Add(this.txtSourcePath);
             this.Controls.Add(this.lblSourcePath);
             this.Name = "TranslationCrawler";
             this.Text = "Translation Crawler";
@@ -139,14 +163,16 @@
         #endregion
 
         private System.Windows.Forms.Label lblSourcePath;
-        private System.Windows.Forms.TextBox txtSourcePath;
         private System.Windows.Forms.Label lblDestinationPath;
-        private System.Windows.Forms.TextBox txtDesinationPath;
         private System.Windows.Forms.Label lblBaseSource;
         private System.Windows.Forms.TextBox txtBaseSource;
         private System.Windows.Forms.ListBox lbxTranslations;
         private System.Windows.Forms.Button btnCrawl;
         private System.Windows.Forms.Button btnCopyTranslation;
+        private System.Windows.Forms.ComboBox cbxSourcePath;
+        private System.Windows.Forms.ComboBox cbxDestinationPath;
+        private System.Windows.Forms.Label lblLanguages;
+        private System.Windows.Forms.ComboBox cbxLanguages;
     }
 }
 

@@ -13,10 +13,11 @@ namespace TranslationCrawler
     // TODO: Move crawler implementation to seprate class.
     public partial class TranslationCrawler : Form
     {
-        private readonly string ResourceFolderName = "App_LocalResources";
-        private readonly string ResourceFileExtension = ".resx";
+        private readonly string _resourceFolderName = "App_LocalResources";
+        private readonly string _resourceFileExtension = ".resx";
+        private readonly string _allLanguages = "all";
 
-        private FolderHandler _folderHandler;
+        private readonly FolderHandler _folderHandler;
 
         public TranslationCrawler()
         {
@@ -24,24 +25,31 @@ namespace TranslationCrawler
 
             _folderHandler = new FolderHandler();
 
-            this.txtBaseSource.Text = _folderHandler.GetBaseSource();
-            this.txtSourcePath.Text = @"Account\Login.aspx";
-            this.txtDesinationPath.Text = @"UserControls\TestUC.ascx";
+            txtBaseSource.Text = _folderHandler.GetBaseSource();
+
+            var resourceFiles = _folderHandler.GetAllResourceFiles().OrderBy(r => r).ToArray<object>();
+            if (resourceFiles.Length > 0)
+            {
+                cbxSourcePath.Items.AddRange(resourceFiles);
+                cbxSourcePath.SelectedIndex = 1;
+                cbxDestinationPath.Items.AddRange(resourceFiles);
+                cbxDestinationPath.SelectedIndex = 8;
+            }
         }
 
         private void btnCrawl_Click(object sender, EventArgs e)
         {
-            var sourceControlPath = GetControlPath(txtDesinationPath.Text);
-            if (sourceControlPath == null) return;
+            var sourceRelativePath = cbxSourcePath.SelectedItem.ToString();
+            if (string.IsNullOrEmpty(sourceRelativePath))
+            {
+                throw new ApplicationException("Source file must be selected.");
+            }
 
-            var content = File.ReadAllText(sourceControlPath);
+            var sourceControlFullPath = _folderHandler.GetFullPath(sourceRelativePath);         
+            var content = File.ReadAllText(sourceControlFullPath);
+            var crawler = new Crawler(content);
 
-            this.lbxTranslations.Items.Clear();
-            string patternMetaResourceKeys = "meta:resourcekey=\"(.*?)\"";
-            FindResourceKeys(content, patternMetaResourceKeys);
-
-            string patternMaskLocalResource = "GetMaskedLocalResource\\(\"(.*?)\"";
-            FindResourceKeys(content, patternMaskLocalResource);
+            lbxTranslations.Items.AddRange(crawler.FindAllResourceKeys().ToArray<object>());
         }
 
         private string GetControlPath(string controlPath)
@@ -55,20 +63,9 @@ namespace TranslationCrawler
             return controlFullPath;
         }
 
-        private void FindResourceKeys(string content, string pattern)
-        {
-            foreach (Match m in Regex.Matches(content, pattern))
-            {
-                if (m.Groups.Count == 2)
-                {
-                    this.lbxTranslations.Items.Add(m.Groups[1].Value);
-                }
-            }
-        }
-
         private void btnCopyTranslation_Click(object sender, EventArgs e)
         {
-            GetControlResourceFilePath(txtSourcePath.Text);
+            GetControlResourceFilePath(cbxSourcePath.SelectedItem.ToString());
         }
 
         private string GetControlResourceFilePath(string controlPath)
@@ -80,13 +77,13 @@ namespace TranslationCrawler
             var sourceControlName = Path.GetFileName(sourceControlFullPath);
 
 
-            var destinationControlFullPath = GetControlPath(txtDesinationPath.Text);
+            var destinationControlFullPath = GetControlPath(cbxDestinationPath.SelectedItem.ToString());
             if (destinationControlFullPath == null) return null;
 
             var destonationResourceDirectory = Path.GetDirectoryName(destinationControlFullPath);
             var destinationControlName = Path.GetFileName(destinationControlFullPath);
 
-            foreach (var resourceFile in GetReourceFiles(resourceDirectory, sourceControlName + ResourceFileExtension))
+            foreach (var resourceFile in GetReourceFiles(resourceDirectory, sourceControlName + _resourceFileExtension))
             {
                 var resourcesToCopy = new Dictionary<string, string>();
                 using (ResXResourceSet resxSet = new ResXResourceSet(resourceFile))
@@ -102,49 +99,65 @@ namespace TranslationCrawler
                 }
 
                 var destinationResourceFilePath = Path.Combine(destonationResourceDirectory,
-                        ResourceFolderName + "\\" + destinationControlName + ResourceFileExtension);
+                        _resourceFolderName + "\\" + destinationControlName + _resourceFileExtension);
                 using (ResXResourceWriter resx = new ResXResourceWriter(destinationResourceFilePath))
                 {
-                    foreach(var resource in resourcesToCopy)
+                    foreach (var resource in resourcesToCopy)
                     {
                         resx.AddResource(resource.Key, resource.Value);
                     }
                     resx.Generate();
                 }
 
-                    //var sourcerXML = XDocument.Load(resourceFile);
-                    //var resourceSourceDataElements = sourcerXML.Descendants("data");
+                //var sourcerXML = XDocument.Load(resourceFile);
+                //var resourceSourceDataElements = sourcerXML.Descendants("data");
 
-                    //var resourceDestination = XDocument.Load(Path.Combine(destonationResourceDirectory,
-                    //    ResourceFolderName + "\\" + destinationControlName + ResourceFileExtension)).Root;
+                //var resourceDestination = XDocument.Load(Path.Combine(destonationResourceDirectory,
+                //    ResourceFolderName + "\\" + destinationControlName + ResourceFileExtension)).Root;
 
-                    //foreach (var destinationControlResource in this.lbxTranslations.Items)
-                    //{
-                    //    foreach (var resource in resourceSourceDataElements.Where(x => x.Attribute("name").Value.StartsWith(destinationControlResource.ToString())))
-                    //    {
-                    //        var resourceKey = resource.Attribute("name").Value;
-                    //        var resourceValue = resource.Value;
+                //foreach (var destinationControlResource in this.lbxTranslations.Items)
+                //{
+                //    foreach (var resource in resourceSourceDataElements.Where(x => x.Attribute("name").Value.StartsWith(destinationControlResource.ToString())))
+                //    {
+                //        var resourceKey = resource.Attribute("name").Value;
+                //        var resourceValue = resource.Value;
 
-                    //        var data = new XElement("data", new XAttribute("name", "resourceKey"), 
-                    //                                        new XAttribute("xml:space", "preserve"),
-                    //                            new XElement("value", "resourceValue"));
-                    //        resourceDestination.Elements().Last().Add(data);
-                    //    }
-                    //}
-                    //resourceDestination.Save(resourceFile + "1");
-                }
+                //        var data = new XElement("data", new XAttribute("name", "resourceKey"), 
+                //                                        new XAttribute("xml:space", "preserve"),
+                //                            new XElement("value", "resourceValue"));
+                //        resourceDestination.Elements().Last().Add(data);
+                //    }
+                //}
+                //resourceDestination.Save(resourceFile + "1");
+            }
 
             return sourceControlFullPath;
         }
 
         private IEnumerable<string> GetReourceFiles(string resourceDirectory, string controlName)
         {
-            foreach (var resourceFile in Directory.EnumerateFiles(Path.Combine(resourceDirectory, ResourceFolderName)))
+            foreach (var resourceFile in Directory.EnumerateFiles(Path.Combine(resourceDirectory, _resourceFolderName)))
             {
                 if (resourceFile.Contains(controlName))
                 {
                     yield return resourceFile;
                 }
+            }
+        }
+
+        private void cbxSourcePath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var sourceRelativeFilePath = ((ComboBox)sender).SelectedItem.ToString();
+            cbxLanguages.Items.Clear();
+            cbxLanguages.ResetText();
+
+            var sourceLanguages = _folderHandler.GetAllSourceLanguages(sourceRelativeFilePath).ToArray<object>();
+            if (sourceLanguages.Any())
+            {
+                // Add default value for all languaegs.
+                cbxLanguages.Items.Add(_allLanguages);
+                cbxLanguages.Items.AddRange(sourceLanguages);
+                cbxLanguages.SelectedIndex = 0;
             }
         }
     }

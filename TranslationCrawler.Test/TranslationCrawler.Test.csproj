@@ -67,7 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="TranslationCrawlerTest.cs" />
+    <Compile Include="CrawlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FolderHandlerTest.cs" />
   </ItemGroup>

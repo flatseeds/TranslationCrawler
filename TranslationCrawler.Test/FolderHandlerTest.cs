@@ -12,12 +12,17 @@ namespace TranslationCrawler.Test
     {
         // Get real solution directory instead.
         private readonly string _solutionFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
-                                                    .Replace(Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name, @"bin\Debug"), string.Empty);
+                                                    ?.Replace(Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name, @"bin\Debug"), string.Empty);
 
         private readonly string _baseSourceProjectName = "TestDec";
 
+        private readonly string _destinationRelativeFilePath = @"UserControls\TestUC.ascx";
+        private readonly string _sourceRelativeFilePath = @"Account\Login.aspx";
+        private readonly string _sourceRelativeFilePathWihtoutResourceFolder = @"About.ascx";
+        private readonly string _sourceRelativeFilePathResourcesNotExists = @"Account\Manage.aspx";
+
         [TestMethod]
-        public void GetBaseSource_AppConfig()
+        public void FolderHandler_GetBaseSource_AppConfig()
         {
             using (Create())
             {
@@ -32,7 +37,7 @@ namespace TranslationCrawler.Test
         }
 
         [TestMethod]
-        public void GetBaseSource_Default()
+        public void FolderHandler_GetBaseSource_Default()
         {
             var folderHandler = new FolderHandler();
 
@@ -42,7 +47,7 @@ namespace TranslationCrawler.Test
         }
 
         [TestMethod]
-        public void GetAllResourceFullFiles_Count()
+        public void FolderHandler_GetAllResourceFullFiles_Count()
         {
             var folderHandler = new FolderHandler();
 
@@ -56,7 +61,7 @@ namespace TranslationCrawler.Test
         }
 
         [TestMethod]
-        public void GetAllResourceFiles_Count()
+        public void FolderHandler_GetAllResourceFiles_Count()
         {
             var folderHandler = new FolderHandler();
 
@@ -70,24 +75,57 @@ namespace TranslationCrawler.Test
         }
 
         [TestMethod]
-        public void GetRelativeFilePath()
+        public void FolderHandler_GetRelativeFilePath()
         {
-            //var folderHandlerMoq = new Moq.Mock<IFolderHandler>() { CallBase = true };
-            //folderHandlerMoq.Setup(m => m.GetAllResourceFullFiles()).Returns(new List<string>{""});
-            //folderHandlerMoq.Setup(m => m.GetBaseSource()).Returns(@"C:\Users\drazenp86\Source\Repos\TranslationCrawler\TestDec");
-
             var folderHandler = new FolderHandler();
 
             var resourceRelativeFilePath =
-                folderHandler.GetRelativeFilePath(Path.Combine(_solutionFolder, _baseSourceProjectName + @"\UserControls\TestUC.ascx"));
+                folderHandler.GetRelativeFilePath(Path.Combine(_solutionFolder, _baseSourceProjectName + "\\" + _destinationRelativeFilePath));
 
-            Assert.AreEqual(@"UserControls\TestUC.ascx", resourceRelativeFilePath);
+            Assert.AreEqual(_destinationRelativeFilePath, resourceRelativeFilePath);
         }
 
         [TestMethod]
-        public void GetAllSourceFiles()
+        public void FolderHandler_GetAllSourceLanguages_ResourcesExists()
         {
+            var folderHandler = new FolderHandler();
+            
+            var languages = folderHandler.GetAllSourceLanguages(_sourceRelativeFilePath).ToList();
 
+            Assert.AreEqual(2, languages.Count());
+
+            Assert.AreEqual("de", languages[0]);
+            Assert.AreEqual("en", languages[1]);
+        }
+
+        [TestMethod]
+        public void FolderHandler_GetAllSourceLanguages_ResourceFolderDontExists()
+        {
+            var folderHandler = new FolderHandler();
+            
+            var languages = folderHandler.GetAllSourceLanguages(_sourceRelativeFilePathWihtoutResourceFolder).ToList();
+
+            Assert.AreEqual(0, languages.Count());
+        }
+
+        [TestMethod]
+        public void FolderHandler_GetAllSourceLanguages_ResourcesNotExists()
+        {
+            var folderHandler = new FolderHandler();
+            
+            var languages = folderHandler.GetAllSourceLanguages(_sourceRelativeFilePathResourcesNotExists).ToList();
+
+            Assert.AreEqual(0, languages.Count());
+        }
+
+        [TestMethod]
+        public void FolderHandler_GetFullPath()
+        {
+            var folderHandler = new FolderHandler();
+            
+            var fullPath = folderHandler.GetFullPath(_destinationRelativeFilePath);
+
+            Assert.AreEqual(Path.Combine(_solutionFolder, _baseSourceProjectName + "\\" + _destinationRelativeFilePath), fullPath);
         }
     }
 }
