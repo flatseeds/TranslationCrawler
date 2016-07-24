@@ -67,8 +67,36 @@ namespace TranslationCrawler
 
         private void btnCopyTranslation_Click(object sender, EventArgs e)
         {
+            var sourceLanguages = GetLanguages().ToList();
+            var resourceKeys = lbxTranslations.Items.Cast<string>().ToList();
+
+            var translationHandler = new TranslationHandler(sourceLanguages, resourceKeys);
+            if (rbtInsert.Checked)
+            {
+                translationHandler.InsertTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString());
+            }
+            else
+            {
+                translationHandler.UpdateTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString());
+            }
+
             GetControlResourceFilePath(cbxSourcePath.SelectedItem.ToString());
         }
+
+        private IEnumerable<string> GetLanguages()
+        {
+            var selectedLanguage = cbxLanguages.SelectedItem.ToString();
+            if (selectedLanguage == _allLanguages)
+            {
+                var sourceRelativeFilePath = cbxSourcePath.SelectedItem.ToString();
+                foreach (var sourceLanguage in _folderHandler.GetAllSourceLanguages(sourceRelativeFilePath))
+                {
+                    yield return sourceLanguage;
+                }
+            }
+
+            yield return selectedLanguage;
+        } 
 
         private string GetControlResourceFilePath(string controlPath)
         {
