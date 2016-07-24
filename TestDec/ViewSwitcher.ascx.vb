@@ -34,11 +34,11 @@ Partial Class ViewSwitcher
 
     Protected Sub Page_Load(sender As Object, e As EventArgs)
         ' Determine current view
-        Dim isMobile = WebFormsFriendlyUrlResolver.IsMobileView(New HttpContextWrapper(Context))
-        CurrentView = If(isMobile, "Mobile", "Desktop")
+        'Dim isMobile = WebFormsFriendlyUrlResolver.IsMobileView(New HttpContextWrapper(Context))
+        'CurrentView = If(isMobile, "Mobile", "Desktop")
 
-        ' Determine alternate view
-        AlternateView = If(isMobile, "Desktop", "Mobile")
+        '' Determine alternate view
+        'AlternateView = If(isMobile, "Desktop", "Mobile")
 
         ' Create switch URL from the route, e.g. ~/__FriendlyUrls_SwitchView/Mobile?ReturnUrl=/Page
         Dim url = GetRouteUrl("AspNet.FriendlyUrls.SwitchView", New With { _

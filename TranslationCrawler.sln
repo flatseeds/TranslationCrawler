@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationCrawler", "TranslationCrawler\TranslationCrawler.csproj", "{0D6027F2-0D50-40BC-A4FB-368968A968EC}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TestDec(1)", "TestDec\", "{93286198-E584-46E3-BF04-7DF8545BBA12}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TestDec", "TestDec\", "{93286198-E584-46E3-BF04-7DF8545BBA12}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_47016"
@@ -26,6 +26,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TestDec(1)", "TestDec\", "{
 		SlnRelativePath = "TestDec\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationCrawler.Test", "TranslationCrawler.Test\TranslationCrawler.Test.csproj", "{B1CCDA3C-9A52-4E63-8D13-C13BE2C87E19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,9 +39,12 @@ Global
 		{0D6027F2-0D50-40BC-A4FB-368968A968EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D6027F2-0D50-40BC-A4FB-368968A968EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93286198-E584-46E3-BF04-7DF8545BBA12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93286198-E584-46E3-BF04-7DF8545BBA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93286198-E584-46E3-BF04-7DF8545BBA12}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{93286198-E584-46E3-BF04-7DF8545BBA12}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B1CCDA3C-9A52-4E63-8D13-C13BE2C87E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1CCDA3C-9A52-4E63-8D13-C13BE2C87E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1CCDA3C-9A52-4E63-8D13-C13BE2C87E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1CCDA3C-9A52-4E63-8D13-C13BE2C87E19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

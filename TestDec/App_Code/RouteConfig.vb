@@ -3,6 +3,6 @@ Imports Microsoft.AspNet.FriendlyUrls
 
 Public Module RouteConfig
     Sub RegisterRoutes(ByVal routes As RouteCollection)
-        routes.EnableFriendlyUrls()
+        'routes.EnableFriendlyUrls()
     End Sub
 End Module
