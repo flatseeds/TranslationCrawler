@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -65,7 +66,8 @@ namespace TranslationCrawler
             var sourceLanguages = GetLanguages().ToList();
             var resourceKeys = lbxTranslations.Items.Cast<string>().ToList();
 
-            var databaseHandler = new DatabaseHandler("connection string");
+            var connectionString = ConfigurationManager.ConnectionStrings["DBConnection"].ToString();
+            var databaseHandler = new DatabaseHandler(connectionString);
             var translationHandler = new TranslationHandler(sourceLanguages, resourceKeys, _folderHandler, databaseHandler);
             lbxInsertedTranslations.Items.Clear();
             if (rbtInsert.Checked)

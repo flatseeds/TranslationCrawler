@@ -25,6 +25,7 @@ namespace TranslationCrawler
         {
             foreach (var language in _languages)
             {
+                var languageLCID = new System.Globalization.CultureInfo(language).LCID;
                 var translations = GetTranslationsForInsert(sourceRelativePath, destinationRelativePath, language);
 
                 var destinationResourceFilePath = _folderHandler.GetResourceFilePath(destinationRelativePath, language);
@@ -39,7 +40,7 @@ namespace TranslationCrawler
                     {
                         foreach (var resourcesToInsert in translations.Where(r => r.Key.StartsWith(resourceKey)))
                         {
-                            _databaseHandler.SaveTranslationMovingHistory(sourceRelativePath, destinationRelativePath, resourceKey, language);
+                            _databaseHandler.SaveTranslationMovingHistory(sourceRelativePath, destinationRelativePath, resourceKey, languageLCID);
                             resx.AddResource(resourcesToInsert.Key, resourcesToInsert.Value);
                             yield return $"{language} {resourcesToInsert.Key}";
                         }
