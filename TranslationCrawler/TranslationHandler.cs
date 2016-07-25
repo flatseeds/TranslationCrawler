@@ -21,7 +21,7 @@ namespace TranslationCrawler
             _databaseHandler = databaseHandler;
         }
 
-        public IEnumerable<string> InsertTranslations(string sourceRelativePath, string destinationRelativePath)
+        public IEnumerable<Resource> InsertTranslations(string sourceRelativePath, string destinationRelativePath)
         {
             foreach (var language in _languages)
             {
@@ -40,9 +40,16 @@ namespace TranslationCrawler
                     {
                         foreach (var resourcesToInsert in translations.Where(r => r.Key.StartsWith(resourceKey)))
                         {
-                            _databaseHandler.SaveTranslationMovingHistory(sourceRelativePath, destinationRelativePath, resourceKey, languageLCID);
-                            resx.AddResource(resourcesToInsert.Key, resourcesToInsert.Value);
-                            yield return $"{language} {resourcesToInsert.Key}";
+                            if (string.IsNullOrEmpty(resourcesToInsert.Value))
+                            {
+                                yield return new Resource { Language = language, ResourceID = resourceKey };
+                            }
+                            else
+                            {
+                                _databaseHandler.SaveTranslationMovingHistory(sourceRelativePath, destinationRelativePath, resourceKey, languageLCID);
+                                resx.AddResource(resourcesToInsert.Key, resourcesToInsert.Value);
+                                yield return new Resource { Language = language, ResourceID = resourceKey, Inserted = true };
+                            }
                         }
                     }
                 }

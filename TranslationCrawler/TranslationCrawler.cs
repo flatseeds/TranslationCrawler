@@ -43,7 +43,7 @@ namespace TranslationCrawler
                 throw new ApplicationException("Source file must be selected.");
             }
 
-            var sourceControlFullPath = _folderHandler.GetFullPath(destinationRelativePath);         
+            var sourceControlFullPath = _folderHandler.GetFullPath(destinationRelativePath);
             var content = File.ReadAllText(sourceControlFullPath);
             var crawler = new Crawler(content);
 
@@ -64,6 +64,9 @@ namespace TranslationCrawler
         private void btnCopyTranslation_Click(object sender, EventArgs e)
         {
             var sourceLanguages = GetLanguages().ToList();
+            prbCopyTranslation.Minimum = 0;
+            prbCopyTranslation.Maximum = sourceLanguages.Count();
+             
             var resourceKeys = lbxTranslations.Items.Cast<string>().ToList();
 
             var connectionString = ConfigurationManager.ConnectionStrings["DBConnection"].ToString();
@@ -72,11 +75,26 @@ namespace TranslationCrawler
             lbxInsertedTranslations.Items.Clear();
             if (rbtInsert.Checked)
             {
-                foreach(var insertedTranslation in translationHandler.InsertTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString()))
+                prbCopyTranslation.Increment(1);
+                var currentLanguage = sourceLanguages[0];
+                foreach(var resource in translationHandler.InsertTranslations(cbxSourcePath.SelectedItem.ToString(), cbxDestinationPath.SelectedItem.ToString()))
                 {
-                    lbxInsertedTranslations.ForeColor = System.Drawing.Color.MediumVioletRed;
-                    lbxInsertedTranslations.Items.Add(insertedTranslation);
+                    if(currentLanguage != resource.Language )
+                    {
+                        currentLanguage = resource.Language;
+                        prbCopyTranslation.Increment(1);
+                    }
+
+                    if (resource.Inserted)
+                    {
+                        lbxInsertedTranslations.Items.Add($"{resource.Language} {resource.ResourceID}");
+                    }
+                    else
+                    {
+                        lbxInsertedTranslations.Items.Add($"* {resource.Language} {resource.ResourceID}");
+                    }
                 }
+                prbCopyTranslation.Value = prbCopyTranslation.Maximum;
             }
             else
             {
@@ -120,6 +138,12 @@ namespace TranslationCrawler
                 cbxLanguages.Items.AddRange(sourceLanguages);
                 cbxLanguages.SelectedIndex = 0;
             }
+        }
+
+        private void lbxInsertedTranslations_MouseClick(object sender, MouseEventArgs e)
+        {
+            var selectedItem = ((ListBox)sender).SelectedItem.ToString();
+            Clipboard.SetText(selectedItem);
         }
     }
 }

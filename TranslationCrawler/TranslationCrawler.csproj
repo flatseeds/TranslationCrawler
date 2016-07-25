@@ -49,6 +49,7 @@
     <Compile Include="DatabaseHandler.cs" />
     <Compile Include="FolderHandler.cs" />
     <Compile Include="IFolderHandler.cs" />
+    <Compile Include="Resource.cs" />
     <Compile Include="TranslationCrawler.cs">
       <SubType>Form</SubType>
     </Compile>

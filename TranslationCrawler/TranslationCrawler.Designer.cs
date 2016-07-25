@@ -43,6 +43,7 @@
             this.rbtUpdate = new System.Windows.Forms.RadioButton();
             this.grbActions = new System.Windows.Forms.GroupBox();
             this.lbxInsertedTranslations = new System.Windows.Forms.ListBox();
+            this.prbCopyTranslation = new System.Windows.Forms.ProgressBar();
             this.grbActions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -177,17 +178,27 @@
             // 
             // lbxInsertedTranslations
             // 
+            this.lbxInsertedTranslations.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lbxInsertedTranslations.FormattingEnabled = true;
             this.lbxInsertedTranslations.Location = new System.Drawing.Point(289, 190);
             this.lbxInsertedTranslations.Name = "lbxInsertedTranslations";
             this.lbxInsertedTranslations.Size = new System.Drawing.Size(267, 303);
             this.lbxInsertedTranslations.TabIndex = 17;
+            this.lbxInsertedTranslations.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbxInsertedTranslations_MouseClick);
+            // 
+            // prbCopyTranslation
+            // 
+            this.prbCopyTranslation.Location = new System.Drawing.Point(148, 136);
+            this.prbCopyTranslation.Name = "prbCopyTranslation";
+            this.prbCopyTranslation.Size = new System.Drawing.Size(126, 14);
+            this.prbCopyTranslation.TabIndex = 18;
             // 
             // TranslationCrawler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(570, 505);
+            this.Controls.Add(this.prbCopyTranslation);
             this.Controls.Add(this.lbxInsertedTranslations);
             this.Controls.Add(this.grbActions);
             this.Controls.Add(this.cbxLanguages);
@@ -227,6 +238,7 @@
         private System.Windows.Forms.RadioButton rbtUpdate;
         private System.Windows.Forms.GroupBox grbActions;
         private System.Windows.Forms.ListBox lbxInsertedTranslations;
+        private System.Windows.Forms.ProgressBar prbCopyTranslation;
     }
 }
 

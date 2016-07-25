@@ -120,13 +120,10 @@
   <data name="lblCopyParentNameResource1.Text" xml:space="preserve">
     <value>ddddddddddddddd</value>
   </data>
-  <data name="lblCopyStatusMessageResource1.Text" xml:space="preserve">
-    <value>Drazen</value>
-  </data>
   <data name="StatusMessage1" xml:space="preserve">
     <value>ss</value>
   </data>
-  <data name="LiteralResource31.Text" xml:space="preserve">
-    <value>sdfsdfsdfsdf</value>
+  <data name="lblCopyStatusMessageResource1.Text" xml:space="preserve">
+    <value>Drazen</value>
   </data>
 </root>
