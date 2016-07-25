@@ -37,13 +37,13 @@ namespace TranslationCrawler
         {
             lbxTranslations.Items.Clear();
 
-            var sourceRelativePath = cbxSourcePath.SelectedItem.ToString();
-            if (string.IsNullOrEmpty(sourceRelativePath))
+            var destinationRelativePath = cbxDestinationPath.SelectedItem.ToString();
+            if (string.IsNullOrEmpty(destinationRelativePath))
             {
                 throw new ApplicationException("Source file must be selected.");
             }
 
-            var sourceControlFullPath = _folderHandler.GetFullPath(sourceRelativePath);         
+            var sourceControlFullPath = _folderHandler.GetFullPath(destinationRelativePath);         
             var content = File.ReadAllText(sourceControlFullPath);
             var crawler = new Crawler(content);
 

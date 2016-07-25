@@ -45,7 +45,9 @@
         Decidalo.PageSettings.pageMethodsURL = '<%= VirtualPathUtility.ToAbsolute(Me.AppRelativeVirtualPath) %>';
         Decidalo.PageSettings.moveSkillSelectNewParentSkill = '<%=GetMaskedLocalResource("StatusMessage1") %>';
         Decidalo.PageSettings.msgOnPageLeaveChangesWillBeDiscarded = '<%=GetMaskedGlobalResource("ConfirmMessage2") %>';
-        Decidalo.PageSettings.msgSkillArePartOfEntities = '<%=GetMaskedLocalResource("LiteralResource31.Text") %>';
+        Decidalo.PageSettings.msgSkillArePartOfEntities = '<%=GetMaskedLocalResource("LiteralResource35.Text") %>';
+        Decidalo.PageSettings.msgSkillArePartOfEntities = '<%=GetMaskedLocalResource("LiteralResource34.Text") %>';
+        Decidalo.PageSettings.msgSkillArePartOfEntities = '<%=GetMaskedLocalResource("LiteralResource33.Text") %>';
     </script>
     <hgroup class="title">
         <h1><%: Title %>.</h1>
